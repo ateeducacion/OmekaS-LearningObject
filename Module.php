@@ -99,7 +99,6 @@ class Module extends AbstractModule
 
         // Save configuration settings in omeka settings database
         $settings->set('activate_LearningObjectAdapter', $value);
-
     }
     
     // /**

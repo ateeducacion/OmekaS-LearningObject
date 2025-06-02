@@ -2,9 +2,9 @@
 declare(strict_types=1);
 
 namespace LearningObjectAdapter;
+
 use LearningObjectAdapter\Service\ScormPackageManager;
 use LearningObjectAdapter\Service\ScormPackageManagerFactory;
-
 
 //use ThreeDViewer\Media\FileRenderer\Viewer3DRenderer;
 
