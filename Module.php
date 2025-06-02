@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace ModuleTemplate;
+namespace LearningObjectAdapter;
 
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
@@ -11,7 +11,7 @@ use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Module\AbstractModule;
 use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Stdlib\Message;
-use ModuleTemplate\Form\ConfigForm;
+use LearningObjectAdapter\Form\ConfigForm;
 
 /**
  * Main class for the IsoltatedSites module.
@@ -36,7 +36,7 @@ class Module extends AbstractModule
     public function install(ServiceLocatorInterface $serviceLocator)
     {
         $messenger = new Messenger();
-        $message = new Message("ModuleTemplate module installed.");
+        $message = new Message("Learning Object Adapter module installed.");
         $messenger->addSuccess($message);
     }
     /**
@@ -47,7 +47,7 @@ class Module extends AbstractModule
     public function uninstall(ServiceLocatorInterface $serviceLocator)
     {
         $messenger = new Messenger();
-        $message = new Message("ModuleTemplate module uninstalled.");
+        $message = new Message("Learning Object Adapter module uninstalled.");
         $messenger->addWarning($message);
     }
     
@@ -77,7 +77,7 @@ class Module extends AbstractModule
         $form->init();
         
         $form->setData([
-            'activate_ModuleTemplate_cb' => $settings->get('activate_ModuleTemplate', 1),
+            'activate_LearningObjectAdapter_cb' => $settings->get('activate_LearningObjectAdapter', 1),
         ]);
         
         return $renderer->formCollection($form, false);
@@ -95,10 +95,11 @@ class Module extends AbstractModule
         
         $config = $controller->params()->fromPost();
 
-        $value = isset($config['activate_ModuleTemplate_cb']) ? $config['activate_ModuleTemplate_cb'] : 0;
+        $value = isset($config['activate_LearningObjectAdapter_cb']) ? $config['activate_LearningObjectAdapter_cb'] : 0;
 
         // Save configuration settings in omeka settings database
-        $settings->set('activate_ModuleTemplate', $value);
+        $settings->set('activate_LearningObjectAdapter', $value);
+
     }
     
     // /**

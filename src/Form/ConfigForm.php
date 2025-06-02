@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace IsolatedSites\Form;
+namespace LearningObjectAdapter\Form;
 
 use Laminas\Form\Element;
 use Laminas\Form\Form;
@@ -14,7 +14,7 @@ class ConfigForm extends Form
     public function init(): void
     {
         $this->add([
-            'name' => 'activate_IsolatedSites_cb',
+            'name' => 'activate_LearningObectAdapter_cb',
             'type' => Element\Checkbox::class,
             'options' => [
                 'label' => 'Enable this option to hide unallowed sites ',
@@ -24,7 +24,7 @@ class ConfigForm extends Form
             ],
             'attributes' => [
                 'required' => false,
-                'id' => 'activate_IsolatedSites_cb'
+                'id' => 'activate_LearningObectAdapter_cb'
             ],
         ]);
     }

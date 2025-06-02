@@ -1,39 +1,22 @@
-# Omeka S Module Template
+# Omeka S Learning Object Module
 
-This repository provides a template to help you quickly get started building custom modules for [Omeka S](https://omeka.org/s/). It includes a basic file structure, example configuration, and guidance for extending Omeka functionality following its best practices.
+This Omeka S module is designed to facilitate the upload and management of learning objects, primarily in SCORM format (as zip packages), as media items for Omeka S items.
 
+## Features
 
-## 📁 Structure
-```text
-YourModule/
-├── config/
-│   └── module.ini               # Module metadata
-├── src/
-│   ├── Module.php               # Main module class (entry point)
-│   └── [YourNamespace]/
-│       └── [Classes].php        # Your custom PHP classes (e.g., Forms, Listeners, Helpers)
-├── view/
-│   └── your-module/             # Templates for your module (if needed)
-├── asset/                       # Static assets (JS, CSS, images)
-│   └── js/
-├── test/                        # Unit or integration tests
-└── README.md                    # Documentation
-```
+- **Learning Object Ingester**: Automatically recognizes valid learning object packages (e.g., SCORM zip files) during media upload.
+- **Package Extraction**: Unzips the learning object package into a designated directory on the server and stores its location for later access.
+- **Learning Object Renderer**: Provides a media renderer that displays a predefined thumbnail image for learning objects.
+- **Interactive Viewing**: Offers two icons on the thumbnail:
+    - **Download**: Allows users to download the original learning object package.
+    - **Visualize**: Enables visualization of the learning object directly within the web browser, either embedded in an iframe on the same page or opened in a new browser tab.
 
-## Usage
-  ## 1. Clone This Template
-  - git clone https://github.com/your-org/omeka-s-module-template.git YourModule
-  - cd YourModule
-  ## 2. Rename Module
-  - Replace all occurrences of YourModule with your actual module name.
-  - Update the namespace in src/Module.php and other PHP files.
-  - Edit config/module.ini to match your module’s name, version, and description.
-    
-## Requirements
+## Installation
 
-- Omeka S 4.x or later
-
-## License
-
-This module is published under the [GNU GPLv3](LICENSE) license.
-
+1.  **Download the Module**: Download the latest release of the module from the [GitHub releases page](https://github.com/ateeducacion/OmekaS-LearningObject/releases).
+2.  **Unzip and Upload**: Unzip the downloaded package and upload the `LearningObject` directory to the `modules` directory of your Omeka S installation.
+3.  **Enable the Module**:
+    *   Log in to your Omeka S administration panel.
+    *   Navigate to "Modules" in the left sidebar.
+    *   Locate "Learning Object" in the list of available modules and click the "Install" button.
+4.  **Configure the Module**: After installation, you may need to configure the module settings under "Modules" -> "Learning Object" -> "Configure" to activate the module.
