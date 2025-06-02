@@ -181,7 +181,7 @@ class LearningObject implements IngesterInterface
     /**
      * Get the form element for the ingester.
      *
-     * @return 
+     * @return
      */
     public function form(PhpRenderer $view, array $options = [])
     {
@@ -212,7 +212,7 @@ class LearningObject implements IngesterInterface
             'id' => 'hidden-field-__index__'
         ]);
         
-        return  $view->formRow($fileInput) . 
+        return  $view->formRow($fileInput) .
                 $view->formRow($hiddenInput);
     }
 }

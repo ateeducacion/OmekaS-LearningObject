@@ -12,7 +12,7 @@ class MediaThumbnail extends Thumbnail
     {
         //
         // Check if this is a learning object media
-        if ( $media instanceof MediaRepresentation) {
+        if ($media instanceof MediaRepresentation) {
             if ($media->ingester() === 'LearningObject') {
                 return $this->renderLearningObjectThumbnail($media, $type, $attribs);
             }

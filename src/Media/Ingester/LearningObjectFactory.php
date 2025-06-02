@@ -16,7 +16,7 @@ class LearningObjectFactory implements FactoryInterface
      * @return LearningObject
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    { 
+    {
         return new LearningObject(
             $container->get('Omeka\File\Uploader'),
             $container->get('Omeka\ApiManager'),
