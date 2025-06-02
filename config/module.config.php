@@ -1,11 +1,23 @@
 <?php
 declare(strict_types=1);
 
-namespace ModuleTemplate;
+namespace LearningObjectAdapter;
+use LearningObjectAdapter\Service\ScormPackageManager;
+use LearningObjectAdapter\Service\ScormPackageManagerFactory;
+
 
 //use ThreeDViewer\Media\FileRenderer\Viewer3DRenderer;
 
 return [
+    'view_helpers' => [
+        'invokables' => [
+            'thumbnail' => 'mediaThumbnail', // Override the default thumbnail helper
+            'formatFileSize' => \LearningObjectAdapter\View\Helper\FormatFileSize::class,
+        ],
+        'factories' => [
+            'mediaThumbnail' => \LearningObjectAdapter\Service\ViewHelper\MediaThumbnailFactory::class,
+        ],
+    ],
     'view_manager' => [
         'template_path_stack' => [
             dirname(__DIR__) . '/view',
@@ -27,9 +39,24 @@ return [
             ],
         ],
     ],
-    'ModuleTemplate' => [
+    'service_manager' =>[
+        'factories' => [
+            ScormPackageManager::class => \LearningObjectAdapter\Service\ScormPackageManagerFactory::class
+        ],
+    ],
+    'media_ingesters' => [
+        'factories' => [
+            'LearningObject' => \LearningObjectAdapter\Media\Ingester\LearningObjectFactory::class,
+        ],
+    ],
+    'media_renderers' => [
+        'invokables' => [
+            'LearningObject' => \LearningObjectAdapter\Media\Renderer\LearningObject::class,
+        ],
+    ],
+    'LearningObjectAdapter' => [
         'settings' => [
-            'activate_ModuleTemplate' => true,
+            'activate_LearningObjectAdapter' => true,
         ]
     ],
 ];

@@ -1,0 +1,94 @@
+<?php
+// view/common/scorm-package.phtml
+$scormInfo = $learningObjectData['scorm_info'] ?? [];
+$extractionPath = $learningObjectData['extraction_path'] ?? '';
+
+// Determine the entry point file
+$entryPoint = 'index.html'; // Default
+if (!empty($scormInfo['entry_point'])) {
+    $entryPoint = $scormInfo['entry_point'];
+}
+
+// Build the URL to the extracted SCORM content
+$baseUrl = $this->serverUrl($this->basePath());
+$scormUrl = $baseUrl . '/files/original/' . $extractionPath . '/' . $entryPoint;
+
+// Get the original file URL for download
+$originalFileUrl = '';
+if ($media->hasOriginal()) {
+    $originalFileUrl = $media->originalUrl();
+}
+?>
+
+<div class="scorm-package">
+    <h3 class="scorm-title">
+        <?= !empty($scormInfo['title']) ? $this->escapeHtml($scormInfo['title']) : 'SCORM Learning Object' ?>
+    </h3>
+    
+    <?php if (!empty($scormInfo['description'])): ?>
+    <div class="scorm-description">
+        <?= $this->escapeHtml($scormInfo['description']) ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if (!empty($extractionPath) || !empty($originalFileUrl)): ?>
+    <div class="scorm-actions">
+        
+        <?php if (!empty($extractionPath)): ?>
+        <div class="scorm-launch">
+            <a href="<?= $this->escapeHtmlAttr($scormUrl) ?>" 
+               target="_blank" 
+               class="btn btn-primary scorm-launch-btn" 
+               rel="noopener noreferrer"
+               title="Launch SCORM Package in new window">
+                <i class="fas fa-play"></i> Launch SCORM Package
+            </a>
+        </div>
+        <?php endif; ?>
+        
+        <?php if (!empty($originalFileUrl)): ?>
+        <div class="scorm-download">
+            <a href="<?= $this->escapeHtmlAttr($originalFileUrl) ?>" 
+               class="btn btn-secondary scorm-download-btn" 
+               download
+               title="Download original SCORM package file">
+                <i class="fas fa-download"></i> Download Package
+            </a>
+        </div>
+        <?php endif; ?>
+        
+    </div>
+    
+    <div class="scorm-metadata">
+        <?php if (!empty($scormInfo['schemaversion'])): ?>
+        <div class="scorm-version">
+            <small class="text-muted">
+                <i class="fas fa-info-circle"></i> SCORM Version: <?= $this->escapeHtml($scormInfo['schemaversion']) ?>
+            </small>
+        </div>
+        <?php endif; ?>
+        
+        <?php if ($media->size()): ?>
+        <div class="scorm-filesize">
+            <small class="text-muted">
+                <i class="fas fa-file-archive"></i> File Size: <?= $this->escapeHtml($this->formatFileSize($media->size())) ?>
+            </small>
+        </div>
+        <?php endif; ?>
+        
+        <?php if ($media->mediaType()): ?>
+        <div class="scorm-filetype">
+            <small class="text-muted">
+                <i class="fas fa-file"></i> Type: <?= $this->escapeHtml($media->mediaType()) ?>
+            </small>
+        </div>
+        <?php endif; ?>
+    </div>
+    
+    <?php else: ?>
+    <div class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        SCORM package files are not available.
+    </div>
+    <?php endif; ?>
+</div>
