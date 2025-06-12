@@ -1,10 +1,10 @@
 # Omeka S Learning Object Module
 
-This Omeka S module is designed to facilitate the upload and management of learning objects, primarily in SCORM format (as zip packages), as media items for Omeka S items.
+This Omeka S module is designed to facilitate the upload and management of learning objects, primarily in SCORM format (as zip packages), as media items for Omeka S items. It also supports eXeLearning 3.0 packages.
 
 ## Features
 
-- **Learning Object Ingester**: Automatically recognizes valid learning object packages (e.g., SCORM zip files) during media upload.
+- **Learning Object Ingester**: Automatically recognizes valid learning object packages (e.g., SCORM zip files and eXeLearning 3.0 packages) during media upload.
 - **Package Extraction**: Unzips the learning object package into a designated directory on the server and stores its location for later access.
 - **Learning Object Renderer**: Provides a media renderer that displays a predefined thumbnail image for learning objects.
 - **Interactive Viewing**: Offers two icons on the thumbnail:
