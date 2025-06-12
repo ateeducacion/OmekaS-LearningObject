@@ -14,7 +14,7 @@ class LearningObject implements RendererInterface
 
         $html = '<div class="learning-object-container">';
         
-        if (!empty($learningObjectData) && isset($learningObjectData['type']) && $learningObjectData['type'] === 'SCORM') {
+        if (!empty($learningObjectData) && isset($learningObjectData['type']) && in_array($learningObjectData['type'], ['SCORM', 'eXeLearning'])) {
             // Use partial for SCORM packages
             $html .= $view->partial('common/scorm-package', [
                 'learningObjectData' => $learningObjectData,

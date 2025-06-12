@@ -78,7 +78,7 @@ class LearningObject implements IngesterInterface
      */
     public function getFileExtensions()
     {
-        return ['zip'];
+        return ['zip', 'elp'];
     }
     /**
      * Get the ingester's allowed media types.
@@ -96,7 +96,7 @@ class LearningObject implements IngesterInterface
      */
     public function getMediaTypes()
     {
-        return ['application/zip'];
+        return ['application/zip', 'application/x-zip-compressed', 'application/octet-stream'];
     }
 
     /**
@@ -128,47 +128,78 @@ class LearningObject implements IngesterInterface
             return;
         }
 
-         // Validate that it's a zip file
+        $filename = $fileData['file'][$index]['name'];
+        $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
         $mediaType = $finfo->file($fileData['file'][$index]['tmp_name']);
-        if ($mediaType !== 'application/zip' && $mediaType !== 'application/x-zip-compressed') {
-            throw new \Omeka\Api\Exception\ValidationException('Invalid file format. Only zip files are allowed.');
+        if (!in_array($mediaType, ['application/zip', 'application/x-zip-compressed', 'application/octet-stream'])) {
+            throw new \Omeka\Api\Exception\ValidationException('Formato de archivo inválido. Solo se permiten archivos zip o elp.');
         }
-
-
 
         $tempFile = $this->uploader->upload($fileData['file'][$index], $errorStore);
         if (!$tempFile) {
             return;
         }
 
-        // Validate SCORM package
-        if (!$this->ScormPackageManager->isValidScormPackage($tempFile, $errorStore)) {
+        $isExeLearning3 = false;
+        // Si es .elp, analizar su contenido
+        if ($extension === 'elp') {
+            $zipPath = $tempFile->getTempPath();
+            $zip = new \ZipArchive();
+            if ($zip->open($zipPath) === true) {
+                $hasContentXml = false;
+                $hasIndexHtml = false;
+                $hasContentV3Xml = false;
+                for ($i = 0; $i < $zip->numFiles; $i++) {
+                    $name = $zip->getNameIndex($i);
+                    if ($name === 'content.xml') $hasContentXml = true;
+                    if ($name === 'index.html') $hasIndexHtml = true;
+                    if ($name === 'contentv3.xml') $hasContentV3Xml = true;
+                }
+                $zip->close();
+                if ($hasContentXml && $hasIndexHtml) {
+                    // eXe 3.x: tratar como SCORM-like
+                    $isExeLearning3 = true;
+                } elseif ($hasContentV3Xml && !$hasIndexHtml) {
+                    $errorStore->addError('elp', 'El archivo eXeLearning (.elp) es de una versión antigua (2.x) y no puede visualizarse directamente.\nAbra el paquete con eXeLearning 3.x y expórtelo de nuevo para actualizarlo.');
+                    return;
+                } else {
+                    $errorStore->addError('elp', 'El archivo .elp no tiene la estructura esperada para eXeLearning 3.x.');
+                    return;
+                }
+            } else {
+                $errorStore->addError('elp', 'No se pudo abrir el archivo .elp como ZIP.');
+                return;
+            }
+        }
+
+        // Validar SCORM o eXe 3.x
+        if (!$isExeLearning3 && !$this->ScormPackageManager->isValidScormPackage($tempFile, $errorStore)) {
             return;
         }
 
-        // Generate unique directory name for extraction
         $extractionDir = 'scorm_' . uniqid();
-        
-        // Extract SCORM package
         $extractedPath = $this->ScormPackageManager->extractScormPackage($tempFile, $extractionDir, $errorStore);
         if (!$extractedPath) {
             return;
         }
 
-        // Get SCORM information
         $scormInfo = $this->ScormPackageManager->getScormInfo($extractedPath);
-
+        // Si es eXeLearning 3.x, forzar el entry_point a index.html
+        if ($isExeLearning3) {
+            $scormInfo['entry_point'] = 'index.html';
+            $scormInfo['title'] = $scormInfo['title'] ?: 'eXeLearning 3.x';
+        }
 
         $media->setData([
             'learning_object' => true,
             'learning_object_data' => [
-                'type' => 'SCORM',
+                'type' => ($extension === 'elp') ? 'eXeLearning' : 'SCORM',
                 'extraction_path' => $extractionDir,
                 'scorm_info' => $scormInfo ?: [],
             ],
         ]);
-
 
         $tempFile->setSourceName($fileData['file'][$index]['name']);
         if (!array_key_exists('o:source', $data)) {
