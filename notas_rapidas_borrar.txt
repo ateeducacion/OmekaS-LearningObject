@@ -21,7 +21,19 @@ array(1) {
     }
   }
 }
-    
+
+{
+   "file":{
+      "3":{
+         "name":"SaxonHE12-7J.zip",
+         "full_path":"SaxonHE12-7J.zip",
+         "type":"application\\/x-zip-compressed",
+         "tmp_name":"\\/tmp\\/phpJBsNCr",
+         "error":0,
+         "size":7208893
+      }
+   }
+}        
         
 
 
@@ -184,15 +196,3 @@ object(Omeka\Api\Request)#2198 (8) {
         
 
 
-{
-   "file":{
-      "3":{
-         "name":"SaxonHE12-7J.zip",
-         "full_path":"SaxonHE12-7J.zip",
-         "type":"application\\/x-zip-compressed",
-         "tmp_name":"\\/tmp\\/phpJBsNCr",
-         "error":0,
-         "size":7208893
-      }
-   }
-}        
