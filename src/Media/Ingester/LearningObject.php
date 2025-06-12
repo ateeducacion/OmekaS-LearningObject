@@ -230,7 +230,7 @@ class LearningObject implements IngesterInterface
         ->setAttributes([
             'enctype' => 'multipart/form-data',
             'required' => true,
-            'accept' => 'application/zip',
+            //'accept' => application/zip',
             'class' => 'media-file-input',
             'data-info-template' => $infoTemplate,
             
