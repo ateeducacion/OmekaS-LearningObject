@@ -142,8 +142,8 @@ class ScormPackageManager
         }
 
         if ($foundIndicators === 0) {
-            $errorStore->addError('scorm', 'imsmanifest.xml does not appear to contain SCORM content.');
-            return false;
+            //$errorStore->addError('scorm', 'imsmanifest.xml does not appear to contain SCORM content.');
+            //return false;
         }
 
         return true;
