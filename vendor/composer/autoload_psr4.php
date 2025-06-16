@@ -11,6 +11,8 @@ return array(
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
+    'LearningObjectAdapter\\' => array($baseDir . '/src'),
+    'LearningObjectAdapterTest\\' => array($baseDir . '/test'),
     'Laminas\\Validator\\' => array($vendorDir . '/laminas/laminas-validator/src'),
     'Laminas\\Stdlib\\' => array($vendorDir . '/laminas/laminas-stdlib/src'),
     'Laminas\\ServiceManager\\' => array($vendorDir . '/laminas/laminas-servicemanager/src'),
@@ -18,8 +20,6 @@ return array(
     'Laminas\\Hydrator\\' => array($vendorDir . '/laminas/laminas-hydrator/src'),
     'Laminas\\Form\\' => array($vendorDir . '/laminas/laminas-form/src'),
     'Laminas\\Filter\\' => array($vendorDir . '/laminas/laminas-filter/src'),
-    'IsolatedSites\\' => array($baseDir . '/src'),
-    'IsolatedSitesTest\\' => array($baseDir . '/test'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
 );

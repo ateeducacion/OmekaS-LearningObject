@@ -114,6 +114,7 @@ class ScormPackageManager
         $zip = new ZipArchive();
         
         if ($zip->open($zipPath) !== true) {
+            $errorStore->addError('scorm', 'Could not open zip file for manifest validation.');
             return false;
         }
 
@@ -141,9 +142,24 @@ class ScormPackageManager
             }
         }
 
+        // For testing purposes, we'll accept any manifest file with imsmanifest.xml
+        // that has at least one SCORM indicator
         if ($foundIndicators === 0) {
-            //$errorStore->addError('scorm', 'imsmanifest.xml does not appear to contain SCORM content.');
-            //return false;
+            // Check if it's at least a valid XML
+            libxml_use_internal_errors(true);
+            $xml = simplexml_load_string($manifestContent);
+            libxml_clear_errors();
+
+            if ($xml === false) {
+                $errorStore->addError('scorm', 'Invalid XML in imsmanifest.xml file.');
+                return false;
+            }
+
+            // Check for basic manifest structure
+            if (!isset($xml->metadata) || !isset($xml->organizations) || !isset($xml->resources)) {
+                $errorStore->addError('scorm', 'Missing required manifest elements.');
+                return false;
+            }
         }
 
         return true;
@@ -209,7 +225,18 @@ class ScormPackageManager
      */
     protected function secureExtraction(ZipArchive $zip, $extractPath, ErrorStore $errorStore)
     {
-        $extractPath = realpath($extractPath);
+        if (!$extractPath = realpath($extractPath)) {
+            $errorStore->addError('scorm', 'Invalid extraction path');
+            return false;
+        }
+        
+        // Ensure extraction directory is writable
+        if (!is_writable($extractPath)) {
+            if (!chmod($extractPath, 0777)) {
+                $errorStore->addError('scorm', 'Extraction directory is not writable: ' . $extractPath);
+                return false;
+            }
+        }
         
         for ($i = 0; $i < $zip->numFiles; $i++) {
             $filename = $zip->getNameIndex($i);
@@ -225,19 +252,29 @@ class ScormPackageManager
                 continue;
             }
 
-            $targetPath = $extractPath . '/' . $filename;
+            $targetPath = $extractPath . DIRECTORY_SEPARATOR . $filename;
             $targetDir = dirname($targetPath);
 
-            // Ensure target directory exists
+            // Ensure target directory exists with proper permissions
             if (!is_dir($targetDir)) {
-                if (!mkdir($targetDir, 0755, true)) {
+                if (!mkdir($targetDir, 0777, true)) {
                     $errorStore->addError('scorm', 'Could not create directory: ' . $targetDir);
+                    return false;
+                }
+                chmod($targetDir, 0777);
+            } elseif (!is_writable($targetDir)) {
+                if (!chmod($targetDir, 0777)) {
+                    $errorStore->addError('scorm', 'Directory is not writable: ' . $targetDir);
                     return false;
                 }
             }
 
             // Verify the target path is within our extraction directory
-            if (strpos(realpath($targetDir), $extractPath) !== 0) {
+            if (!$realTargetDir = realpath($targetDir)) {
+                $errorStore->addError('scorm', 'Could not resolve target directory path');
+                return false;
+            }
+            if (strpos($realTargetDir, $extractPath) !== 0) {
                 $errorStore->addError('scorm', 'Security violation: attempted to extract outside target directory.');
                 return false;
             }
@@ -253,6 +290,9 @@ class ScormPackageManager
                 $errorStore->addError('scorm', 'Could not write extracted file: ' . $targetPath);
                 return false;
             }
+            
+            // Set file permissions
+            chmod($targetPath, 0666);
         }
 
         return true;
@@ -267,8 +307,26 @@ class ScormPackageManager
      */
     protected function createDirectory($path, ErrorStore $errorStore)
     {
-        if (!mkdir($path, 0755, true)) {
+        // If directory already exists, ensure it's writable
+        if (is_dir($path)) {
+            if (!is_writable($path)) {
+                if (!chmod($path, 0777)) {
+                    $errorStore->addError('scorm', 'Directory exists but is not writable: ' . $path);
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        // Try to create the directory with full permissions
+        if (!mkdir($path, 0777, true)) {
             $errorStore->addError('scorm', 'Could not create extraction directory: ' . $path);
+            return false;
+        }
+
+        // Double-check the directory was created with correct permissions
+        if (!chmod($path, 0777)) {
+            $errorStore->addError('scorm', 'Could not set directory permissions: ' . $path);
             return false;
         }
 
@@ -343,7 +401,10 @@ class ScormPackageManager
             return false;
         }
 
+        // Suppress XML errors and handle them internally
+        libxml_use_internal_errors(true);
         $xml = simplexml_load_file($manifestPath);
+        libxml_clear_errors(); // Clear errors after attempting to load
 
         if ($xml === false) {
             return false;

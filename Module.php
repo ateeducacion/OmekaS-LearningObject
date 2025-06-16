@@ -58,7 +58,74 @@ class Module extends AbstractModule
      */
     public function attachListeners(SharedEventManagerInterface $sharedEventManager): void
     {
-        // Replace the default file validator with our custom one
+        // Listen for media deletion events to clean up extracted directories
+        $sharedEventManager->attach(
+            'Omeka\Api\Adapter\MediaAdapter',
+            'api.delete.post',
+            [$this, 'handleMediaDeletion']
+        );
+    }
+    
+    /**
+     * Handle media deletion event to clean up extracted learning object directories
+     *
+     * @param Event $event
+     */
+    public function handleMediaDeletion(Event $event)
+    {
+        $request = $event->getParam('request');
+        $response = $event->getParam('response');
+        $media = $response->getContent();
+        
+        // Check if this is a learning object media
+        $mediaData = $media->getData();
+        if (!isset($mediaData['learning_object']) || !$mediaData['learning_object']) {
+            return;
+        }
+        
+        // Get the extraction path
+        if (!isset($mediaData['learning_object_data']['extraction_path'])) {
+            return;
+        }
+        
+        $extractionPath = $mediaData['learning_object_data']['extraction_path'];
+        
+        // Get the ScormPackageManager service
+        $services = $this->getServiceLocator();
+        $scormPackageManager = $services->get(\LearningObjectAdapter\Service\ScormPackageManager::class);
+        
+        // Get the store to build the full path
+        $store = $services->get('Omeka\File\Store');
+        $basePath = $store->getLocalPath('zips');
+        $fullExtractionPath = $basePath . '/original/' . $extractionPath;
+        
+        // Remove the extracted directory if it exists
+        if (is_dir($fullExtractionPath)) {
+            $this->removeDirectory($fullExtractionPath);
+        }
+    }
+    
+    /**
+     * Recursively remove directory and its contents
+     *
+     * @param string $dir
+     */
+    protected function removeDirectory($dir)
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        $files = array_diff(scandir($dir), ['.', '..']);
+        foreach ($files as $file) {
+            $path = $dir . '/' . $file;
+            if (is_dir($path)) {
+                $this->removeDirectory($path);
+            } else {
+                unlink($path);
+            }
+        }
+        rmdir($dir);
     }
     
     /**
@@ -101,5 +168,4 @@ class Module extends AbstractModule
         $settings->set('activate_LearningObjectAdapter', $value);
     }
     
-    // /**
 }

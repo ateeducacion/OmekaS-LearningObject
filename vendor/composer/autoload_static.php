@@ -31,6 +31,8 @@ class ComposerStaticInit13d5b82223105febe7c9e88ebb5b78b1
         ),
         'L' => 
         array (
+            'LearningObjectAdapter\\' => 22,
+            'LearningObjectAdapterTest\\' => 26,
             'Laminas\\Validator\\' => 18,
             'Laminas\\Stdlib\\' => 15,
             'Laminas\\ServiceManager\\' => 23,
@@ -38,11 +40,6 @@ class ComposerStaticInit13d5b82223105febe7c9e88ebb5b78b1
             'Laminas\\Hydrator\\' => 17,
             'Laminas\\Form\\' => 13,
             'Laminas\\Filter\\' => 15,
-        ),
-        'I' => 
-        array (
-            'IsolatedSites\\' => 14,
-            'IsolatedSitesTest\\' => 18,
         ),
         'D' => 
         array (
@@ -72,6 +69,14 @@ class ComposerStaticInit13d5b82223105febe7c9e88ebb5b78b1
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+        'LearningObjectAdapter\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
+        'LearningObjectAdapterTest\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/test',
+        ),
         'Laminas\\Validator\\' => 
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-validator/src',
@@ -100,14 +105,6 @@ class ComposerStaticInit13d5b82223105febe7c9e88ebb5b78b1
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-filter/src',
         ),
-        'IsolatedSites\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
-        ),
-        'IsolatedSitesTest\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/test',
-        ),
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
@@ -121,6 +118,7 @@ class ComposerStaticInit13d5b82223105febe7c9e88ebb5b78b1
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'LearningObjectAdapter\\Module' => __DIR__ . '/../..' . '/Module.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\ActualValueIsNotAnObjectException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
