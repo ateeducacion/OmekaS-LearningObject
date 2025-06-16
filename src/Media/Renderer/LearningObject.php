@@ -14,7 +14,8 @@ class LearningObject implements RendererInterface
 
         $html = '<div class="learning-object-container">';
         
-        if (!empty($learningObjectData) && isset($learningObjectData['type']) && in_array($learningObjectData['type'], ['SCORM', 'eXeLearning'])) {
+        if (!empty($learningObjectData) && isset($learningObjectData['type'])
+            && in_array($learningObjectData['type'], ['SCORM', 'eXeLearning'])) {
             // Use partial for SCORM packages
             $html .= $view->partial('common/scorm-package', [
                 'learningObjectData' => $learningObjectData,
@@ -70,11 +71,13 @@ class LearningObject implements RendererInterface
         $thumbnailPath = $view->basePath() . '/modules/LearningObjectAdapter/asset/img/learning-object-thumb.png';
         
         // Check if this is a SCORM package and if there's a custom thumbnail
-        if (!empty($learningObjectData) && isset($learningObjectData['type']) && $learningObjectData['type'] === 'SCORM') {
+        if (!empty($learningObjectData) && isset($learningObjectData['type'])
+            && $learningObjectData['type'] === 'SCORM') {
             $extractionPath = $learningObjectData['extraction_path'] ?? '';
             
             // Look for common thumbnail files in the SCORM package
-            $possibleThumbnails = ['thumbnail.png', 'thumbnail.jpg', 'icon.png', 'icon.jpg', 'preview.png', 'preview.jpg'];
+            $possibleThumbnails = ['thumbnail.png', 'thumbnail.jpg', 'icon.png',
+                                'icon.jpg', 'preview.png', 'preview.jpg'];
             
             foreach ($possibleThumbnails as $thumbFile) {
                 $thumbPath = OMEKA_PATH . '/files/original/' . $extractionPath . '/' . $thumbFile;

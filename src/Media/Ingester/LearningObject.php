@@ -43,8 +43,12 @@ class LearningObject implements IngesterInterface
      * @param ApiManager $apiManager
      * @param Dispatcher $dispatcher
      */
-    public function __construct(Uploader $uploader, Manager $apiManager, Dispatcher $dispatcher, ScormPackageManager $ScormPackageManager)
-    {
+    public function __construct(
+        Uploader $uploader,
+        Manager $apiManager,
+        Dispatcher $dispatcher,
+        ScormPackageManager $ScormPackageManager
+    ) {
         $this->uploader = $uploader;
         $this->apiManager = $apiManager;
         $this->dispatcher = $dispatcher;
@@ -134,7 +138,8 @@ class LearningObject implements IngesterInterface
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
         $mediaType = $finfo->file($fileData['file'][$index]['tmp_name']);
         if (!in_array($mediaType, ['application/zip', 'application/x-zip-compressed', 'application/octet-stream'])) {
-            throw new \Omeka\Api\Exception\ValidationException('Formato de archivo inválido. Solo se permiten archivos zip o elp.');
+            throw new \Omeka\Api\Exception\ValidationException('Formato de archivo inválido.'.
+                ' Solo se permiten archivos zip o elp.');
         }
 
         $tempFile = $this->uploader->upload($fileData['file'][$index], $errorStore);
@@ -168,10 +173,13 @@ class LearningObject implements IngesterInterface
                     // eXe 3.x: tratar como SCORM-like
                     $isExeLearning3 = true;
                 } elseif ($hasContentV3Xml && !$hasIndexHtml) {
-                    $errorStore->addError('elp', 'El archivo eXeLearning (.elp) es de una versión antigua (2.x) y no puede visualizarse directamente.\nAbra el paquete con eXeLearning 3.x y expórtelo de nuevo para actualizarlo.');
+                    $errorStore->addError('elp', 'El archivo eXeLearning (.elp) es de una versión antigua (2.x) y'.
+                        ' no puede visualizarse directamente.\nAbra el paquete con eXeLearning 3.x y expórtelo'.
+                        ' de nuevo para actualizarlo.');
                     return;
                 } else {
-                    $errorStore->addError('elp', 'El archivo .elp no tiene la estructura esperada para eXeLearning 3.x.');
+                    $errorStore->addError('elp', 'El archivo .elp no tiene la estructura esperada'.
+                        ' para eXeLearning 3.x.');
                     return;
                 }
             } else {

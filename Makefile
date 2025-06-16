@@ -58,11 +58,11 @@ build: check-docker
 
 # Run the linter to check PHP code style
 lint:
-	"vendor/bin/phpcs" . --standard=PSR2 --ignore=vendor/,assets/,node_modules/,tests/js/,tests/ --colors --extensions=php
+	php vendor/bin/phpcs . --standard=PSR2 --ignore=vendor/,assets/,node_modules/,tests/js/,tests/ --colors --extensions=php
 
 # Automatically fix PHP code style issues
 fix:
-	"vendor/bin/phpcbf" . --standard=PSR2 --ignore=vendor/,assets/,node_modules/,tests/js/,tests/ --colors --extensions=php
+	php vendor/bin/phpcbf . --standard=PSR2 --ignore=vendor/,assets/,node_modules/,tests/js/,tests/ --colors --extensions=php
 
 # Open a shell inside the omekas container
 shell: check-docker
@@ -141,7 +141,7 @@ i18n: generate-pot update-po check-untranslated compile-mo
 .PHONY: test
 test:
 	@echo "Running unit tests..."
-	"vendor/bin/phpunit" -c test/phpunit.xml
+	"vendor/bin/phpunit" -c test/phpunit.xml --colors=always --testdox
 
 # Display help with available commands
 help:

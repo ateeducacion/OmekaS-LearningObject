@@ -10,6 +10,10 @@ interface IngesterInterface
     public function getFileExtensions();
     public function getRenderer();
     public function getMediaTypes();
-    public function ingest(\Omeka\Entity\Media $media, \Omeka\Api\Request $request, \Omeka\Stdlib\ErrorStore $errorStore);
+    public function ingest(
+        \Omeka\Entity\Media $media,
+        \Omeka\Api\Request $request,
+        \Omeka\Stdlib\ErrorStore $errorStore
+    );
     public function form(\Laminas\View\Renderer\PhpRenderer $view, array $options = []);
 }
