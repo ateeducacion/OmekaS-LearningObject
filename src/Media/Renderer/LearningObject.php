@@ -32,14 +32,14 @@ class LearningObject implements RendererInterface
                 }
                 
                 if (isset($learningObjectData['description'])) {
-                    $html .= '<div class="description">' . 
-                        $view->escapeHtml($learningObjectData['description']) . 
+                    $html .= '<div class="description">' .
+                        $view->escapeHtml($learningObjectData['description']) .
                         '</div>';
                 }
 
                 if (isset($learningObjectData['content'])) {
-                    $html .= '<div class="content">' . 
-                        $learningObjectData['content'] . 
+                    $html .= '<div class="content">' .
+                        $learningObjectData['content'] .
                         '</div>';
                 }
             } else {
@@ -241,5 +241,4 @@ class LearningObject implements RendererInterface
             }
         </style>';
     }
-
 }

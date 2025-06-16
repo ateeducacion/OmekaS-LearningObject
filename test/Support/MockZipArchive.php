@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Omeka\File;
 
 /**
  * Mock ZipArchive class for testing when the zip extension is not available

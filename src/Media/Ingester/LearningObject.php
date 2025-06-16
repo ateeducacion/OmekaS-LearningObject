@@ -153,9 +153,15 @@ class LearningObject implements IngesterInterface
                 $hasContentV3Xml = false;
                 for ($i = 0; $i < $zip->numFiles; $i++) {
                     $name = $zip->getNameIndex($i);
-                    if ($name === 'content.xml') $hasContentXml = true;
-                    if ($name === 'index.html') $hasIndexHtml = true;
-                    if ($name === 'contentv3.xml') $hasContentV3Xml = true;
+                    if ($name === 'content.xml') {
+                        $hasContentXml = true;
+                    }
+                    if ($name === 'index.html') {
+                        $hasIndexHtml = true;
+                    }
+                    if ($name === 'contentv3.xml') {
+                        $hasContentV3Xml = true;
+                    }
                 }
                 $zip->close();
                 if ($hasContentXml && $hasIndexHtml) {

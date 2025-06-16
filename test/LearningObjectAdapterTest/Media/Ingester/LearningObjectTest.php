@@ -211,8 +211,8 @@ class LearningObjectTest extends TestCase
 
         $this->media->expects($this->once())
             ->method('setData')
-            ->with($this->callback(function($data) {
-                return isset($data['learning_object']) 
+            ->with($this->callback(function ($data) {
+                return isset($data['learning_object'])
                     && isset($data['learning_object_data']);
             }));
 
