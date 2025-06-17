@@ -5,10 +5,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src\Media\Ingester\LearningObject.php:196
-msgid "Learning Object Zip File"
+#: src\Media\Ingester\LearningObject.php:75
+msgid "Ingest a learning object zip file by uploading it."
+msgstr "Introduce el archivo del REA"
+
+#: src\Media\Ingester\LearningObject.php:241
+msgid "Fichero REA"
 msgstr ""
 
-#: src\Media\Ingester\LearningObject.php:197
+#: src\Media\Ingester\LearningObject.php:242
 msgid "Upload a learning object zip file. Only ZIP files are allowed."
-msgstr ""
+msgstr "Subir REA"

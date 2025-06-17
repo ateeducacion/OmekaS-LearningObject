@@ -72,7 +72,7 @@ class LearningObject implements IngesterInterface
      */
     public function getDescription()
     {
-        return 'Ingest a learning object zip file by uploading it.';
+        return 'Ingest a learning object zip file by uploading it.'; //@translate
     }
 
     /**
