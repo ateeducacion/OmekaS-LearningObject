@@ -27,7 +27,7 @@ jobs:
         run: composer install --no-interaction --prefer-dist
         
       - name: Ensure phpcs is executable
-        run: chmod +x vendor/bin/phpcs
+        run: chmod +x vendor/bin/phpunit
   
       - name: Install gettext
         run: sudo apt-get install -y gettext
