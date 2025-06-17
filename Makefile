@@ -72,7 +72,7 @@ shell: check-docker
 clean: check-docker
 	docker compose down -v --remove-orphans
 
-# Generate the ModuleTemplate-X.X.X.zip package
+# Generate the LearningObjectAdapter-X.X.X.zip package
 package:
 	@if [ -z "$(VERSION)" ]; then \
 		echo "Error: VERSION not specified. Use 'make package VERSION=1.2.3'"; \
@@ -80,8 +80,8 @@ package:
 	fi
 	@echo "Updating version to $(VERSION) in module.ini..."
 	$(SED_INPLACE) 's/^\([[:space:]]*version[[:space:]]*=[[:space:]]*\).*$$/\1"$(VERSION)"/' config/module.ini
-	@echo "Creating ZIP archive: ModuleTemplate-$(VERSION).zip..."
-	composer archive --format=zip --file="ModuleTemplate-$(VERSION)"
+	@echo "Creating ZIP archive: LearningObjectAdapter-$(VERSION).zip..."
+	composer archive --format=zip --file="LearningObjectAdapter-$(VERSION)"
 	@echo "Restoring version to 0.0.0 in module.ini..."
 	$(SED_INPLACE) 's/^\([[:space:]]*version[[:space:]]*=[[:space:]]*\).*$$/\1"0.0.0"/' config/module.ini
 
@@ -141,7 +141,7 @@ i18n: generate-pot update-po check-untranslated compile-mo
 .PHONY: test
 test:
 	@echo "Running unit tests..."
-	"vendor/bin/phpunit" -c test/phpunit.xml --colors=always --testdox
+	php vendor/bin/phpunit -c test/phpunit.xml --colors=always --testdox
 
 # Display help with available commands
 help:
