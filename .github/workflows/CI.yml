@@ -25,7 +25,10 @@ jobs:
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist
-
+        
+      - name: Ensure phpcs is executable
+        run: chmod +x vendor/bin/phpcs
+  
       - name: Install gettext
         run: sudo apt-get install -y gettext
 
