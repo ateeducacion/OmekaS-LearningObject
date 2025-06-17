@@ -14,17 +14,17 @@ class ConfigForm extends Form
     public function init(): void
     {
         $this->add([
-            'name' => 'activate_LearningObectAdapter_cb',
+            'name' => 'activate_LearningObjectAdapter_cb',
             'type' => Element\Checkbox::class,
             'options' => [
-                'label' => 'Enable this option to hide unallowed sites ',
+                'label' => 'Activate Learning Object Adapter',
                 'use_hidden_element' => true,
                 'checked_value' => '1',
                 'unchecked_value' => '0',
             ],
             'attributes' => [
                 'required' => false,
-                'id' => 'activate_LearningObectAdapter_cb'
+                'id' => 'activate_LearningObjectAdapter_cb'
             ],
         ]);
     }

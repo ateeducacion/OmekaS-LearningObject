@@ -1,0 +1,14 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src\Media\Ingester\LearningObject.php:196
+msgid "Learning Object Zip File"
+msgstr ""
+
+#: src\Media\Ingester\LearningObject.php:197
+msgid "Upload a learning object zip file. Only ZIP files are allowed."
+msgstr ""

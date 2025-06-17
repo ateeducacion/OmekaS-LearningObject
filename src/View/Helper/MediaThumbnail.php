@@ -36,7 +36,8 @@ class MediaThumbnail extends Thumbnail
         
         $attribs['src'] = $defaultIcon;
         $attribs['alt'] = $media->displayTitle();
-        $attribs['class'] = isset($attribs['class']) ? $attribs['class'] . ' learning-object-thumbnail' : 'learning-object-thumbnail';
+        $attribs['class'] = isset($attribs['class']) ?
+                            $attribs['class'] . ' learning-object-thumbnail' : 'learning-object-thumbnail';
         return '<img ' . $this->htmlAttribs($attribs) . ' />';
     }
 }

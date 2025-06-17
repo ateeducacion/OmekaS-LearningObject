@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace ModuleTemplates\Form;
+namespace LearningObjectAdapterTest\Form;
 
 use PHPUnit\Framework\TestCase;
-use ModuleTemplates\Form\ConfigForm;
+use LearningObjectAdapter\Form\ConfigForm;
 use Laminas\Form\Element;
 use Laminas\Form\Form;
 
