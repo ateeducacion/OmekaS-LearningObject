@@ -81,7 +81,10 @@ package:
 	@echo "Updating version to $(VERSION) in module.ini..."
 	$(SED_INPLACE) 's/^\([[:space:]]*version[[:space:]]*=[[:space:]]*\).*$$/\1"$(VERSION)"/' config/module.ini
 	@echo "Creating ZIP archive: LearningObjectAdapter-$(VERSION).zip..."
-	composer archive --format=zip --file="LearningObjectAdapter-$(VERSION)"
+	composer archive --format=zip --file="LearningObjectAdapter-$(VERSION)-raw"
+	@echo "Repacking into proper structure..."
+	mkdir -p tmpzip/LearningObjectAdapter && unzip -q LearningObjectAdapter-$(VERSION)-raw.zip -d tmpzip/LearningObjectAdapter && \
+	cd tmpzip && zip -qr ../LearningObjectAdapter-$(VERSION).zip LearningObjectAdapter && cd .. && rm -rf tmpzip LearningObjectAdapter-$(VERSION)-raw.zip
 	@echo "Restoring version to 0.0.0 in module.ini..."
 	$(SED_INPLACE) 's/^\([[:space:]]*version[[:space:]]*=[[:space:]]*\).*$$/\1"0.0.0"/' config/module.ini
 
