@@ -1,5 +1,10 @@
 # Omeka S Learning Object Module
 
+<a href="https://ateeducacion.github.io/omeka-s-playground/?blueprint=https%3A%2F%2Fraw.githubusercontent.com%2Fateeducacion%2FOmekaS-LearningObject%2Frefs%2Fheads%2Fmain%2Fblueprint.json">
+  <img src="https://raw.githubusercontent.com/ateeducacion/omeka-s-playground/main/ogimage.png" alt="Try Learning Object in your browser" width="220">
+</a><br>
+<small><a href="https://ateeducacion.github.io/omeka-s-playground/?blueprint=https%3A%2F%2Fraw.githubusercontent.com%2Fateeducacion%2FOmekaS-LearningObject%2Frefs%2Fheads%2Fmain%2Fblueprint.json">Try in your browser</a></small>
+
 This Omeka S module is designed to facilitate the upload and management of learning objects, primarily in SCORM format (as zip packages), as media items for Omeka S items. It also supports eXeLearning 3.0 packages.
 
 ## Features
