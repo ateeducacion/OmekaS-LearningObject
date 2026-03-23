@@ -19,7 +19,7 @@
   ],
   "modules": [
     {
-      "name": "Learning Objects Adapter",
+      "name": "LearningObjectAdapter",
       "state": "activate",
       "source": {
         "type": "url",
