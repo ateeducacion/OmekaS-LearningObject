@@ -1,7 +1,7 @@
 # Omeka S Learning Object Module
 
 <a href="https://ateeducacion.github.io/omeka-s-playground/?blueprint=https%3A%2F%2Fraw.githubusercontent.com%2Fateeducacion%2FOmekaS-LearningObject%2Frefs%2Fheads%2Fmain%2Fblueprint.json">
-  <img src="https://raw.githubusercontent.com/ateeducacion/omeka-s-playground/main/ogimage.png" alt="Try Learning Object in your browser" width="220">
+  <img src="https://raw.githubusercontent.com/ateeducacion/OmekaS-LearningObject/refs/heads/main/.github/assets/playground-preview-button.svg" alt="Try Learning Object in your browser" width="224">
 </a><br>
 <small><a href="https://ateeducacion.github.io/omeka-s-playground/?blueprint=https%3A%2F%2Fraw.githubusercontent.com%2Fateeducacion%2FOmekaS-LearningObject%2Frefs%2Fheads%2Fmain%2Fblueprint.json">Try in your browser</a></small>
 
