@@ -7,10 +7,11 @@ on:
     tags:
       - '*'
     branches:
-      - '*' 
+      - '*'
 
 jobs:
   lint_and_test:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
@@ -25,10 +26,10 @@ jobs:
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist
-        
+
       - name: Ensure phpcs is executable
         run: chmod +x vendor/bin/phpunit
-  
+
       - name: Install gettext
         run: sudo apt-get install -y gettext
 
