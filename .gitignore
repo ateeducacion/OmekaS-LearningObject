@@ -3,3 +3,5 @@ vendor/
 *.zip
 # PHPUnit cache files
 test/.phpunit.result.cache
+
+/coverage.xml

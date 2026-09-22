@@ -263,6 +263,48 @@ class ModuleTest extends TestCase
         $this->assertFalse(file_exists($subDir . '/file3.txt'));
     }
 
+    public function testLifecycleAndConfigurationForm(): void
+    {
+        $settings = new class {
+            public $values = [];
+
+            public function get($name, $default)
+            {
+                return $this->values[$name] ?? $default;
+            }
+
+            public function set($name, $value)
+            {
+                $this->values[$name] = $value;
+            }
+        };
+        $this->serviceLocator->method('get')->willReturnMap([
+            ['Config', []], ['Omeka\Settings', $settings],
+        ]);
+        $this->module->install($this->serviceLocator);
+        $this->module->uninstall($this->serviceLocator);
+        $view = new class extends \Laminas\View\Renderer\PhpRenderer {
+            public $form;
+
+            public function formCollection($form, $wrap = true)
+            {
+                $this->form = $form;
+                return 'form';
+            }
+        };
+        $this->assertSame('form', $this->module->getConfigForm($view));
+        $this->assertSame('1', $view->form->get('activate_LearningObjectAdapter_cb')->getValue());
+        $controller = $this->createMock(\Laminas\Mvc\Controller\AbstractController::class);
+        $controller->method('params')->willReturn(new class {
+            public function fromPost()
+            {
+                return [];
+            }
+        });
+        $this->module->handleConfigForm($controller);
+        $this->assertSame(0, $settings->values['activate_LearningObjectAdapter']);
+    }
+
     private function removeDirectory(string $dir): void
     {
         if (!is_dir($dir)) {

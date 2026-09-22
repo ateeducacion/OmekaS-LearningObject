@@ -33,3 +33,8 @@ require_once __DIR__ . '/Support/Laminas/View/Renderer/PhpRenderer.php';
 if (!class_exists('ZipArchive')) {
     require_once __DIR__ . '/Support/MockZipArchive.php';
 }
+
+require_once __DIR__ . "/Support/Omeka/Media/Renderer/RendererInterface.php";
+require_once __DIR__ . "/Support/Laminas/View/Helper/AbstractHelper.php";
+require_once __DIR__ . "/Support/Omeka/View/Helper/Thumbnail.php";
+require_once __DIR__ . '/Support/Omeka/Api/Representation.php';

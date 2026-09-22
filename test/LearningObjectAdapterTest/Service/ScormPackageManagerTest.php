@@ -70,6 +70,81 @@ class ScormPackageManagerTest extends TestCase
         }
     }
 
+    public function testCorruptArchiveFailsValidationAndExtraction(): void
+    {
+        file_put_contents($this->testZipPath, 'not a zip archive');
+        $file = $this->createMockTempFile($this->testZipPath);
+        $errors = new ErrorStore();
+        $this->assertFalse($this->scormPackageManager->isValidScormPackage($file, $errors));
+        $this->assertFalse($this->scormPackageManager->extractScormPackage($file, 'corrupt', $errors));
+        $this->assertTrue($errors->hasErrors());
+    }
+
+    public function testManifestsWithoutIndicatorsAreValidatedAsXml(): void
+    {
+        foreach (['not xml', '<manifest/>',
+            '<manifest><metadata/><organizations/><resources/></manifest>'] as $index => $manifest) {
+            $zip = new ZipArchive();
+            $zip->open($this->testZipPath, ZipArchive::OVERWRITE);
+            $zip->addFromString('imsmanifest.xml', $manifest);
+            $zip->close();
+            $errors = new ErrorStore();
+            $valid = $this->scormPackageManager->isValidScormPackage(
+                $this->createMockTempFile($this->testZipPath),
+                $errors
+            );
+            $this->assertSame($index === 2, $valid);
+            $this->assertSame($index !== 2, $errors->hasErrors());
+        }
+    }
+
+    public function testNestedManifestDoesNotMasqueradeAsRootManifest(): void
+    {
+        $zip = new ZipArchive();
+        $zip->open($this->testZipPath, ZipArchive::OVERWRITE);
+        $zip->addFromString('nested/imsmanifest.xml', '<manifest/>');
+        $zip->close();
+        $errors = new ErrorStore();
+        $this->assertFalse($this->scormPackageManager->isValidScormPackage(
+            $this->createMockTempFile($this->testZipPath),
+            $errors
+        ));
+        $this->assertTrue($errors->hasErrors());
+    }
+
+    public function testRepeatedExtractionKeepsExistingPackageAndSkipsHiddenFiles(): void
+    {
+        $zip = new ZipArchive();
+        $zip->open($this->testZipPath);
+        $zip->addEmptyDir('images');
+        $zip->addFromString('.hidden', 'secret');
+        $zip->close();
+        $file = $this->createMockTempFile($this->testZipPath);
+        $errors = new ErrorStore();
+        $first = $this->scormPackageManager->extractScormPackage($file, 'same', $errors);
+        $second = $this->scormPackageManager->extractScormPackage($file, 'same', $errors);
+        $this->assertSame($first . '_1', $second);
+        $this->assertFileExists($first . '/index.html');
+        $this->assertFileExists($second . '/index.html');
+        $this->assertFileDoesNotExist($second . '/.hidden');
+        $this->assertFalse($errors->hasErrors());
+    }
+
+    public function testMetadataTitleAndDescriptionAreRead(): void
+    {
+        $dir = $this->tempDir . '/metadata';
+        mkdir($dir);
+        file_put_contents(
+            $dir . '/imsmanifest.xml',
+            '<manifest><metadata><lom><general><title><langstring>Title</langstring></title>'
+            . '<description><langstring>Description</langstring></description>'
+            . '</general></lom></metadata></manifest>'
+        );
+        $info = $this->scormPackageManager->getScormInfo($dir);
+        $this->assertSame('Title', $info['title']);
+        $this->assertSame('Description', $info['description']);
+    }
+
     public function testIsValidScormPackageWithValidPackage(): void
     {
         $tempFile = $this->createMockTempFile($this->testZipPath);

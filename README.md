@@ -1,5 +1,8 @@
 # Omeka S Learning Object Module
 
+[![codecov](https://codecov.io/gh/ateeducacion/OmekaS-LearningObject/branch/main/graph/badge.svg)](https://codecov.io/gh/ateeducacion/OmekaS-LearningObject)
+
+
 <a href="https://ateeducacion.github.io/omeka-s-playground/?blueprint=https%3A%2F%2Fraw.githubusercontent.com%2Fateeducacion%2FOmekaS-LearningObject%2Frefs%2Fheads%2Fmain%2Fblueprint.json">
   <img src="https://raw.githubusercontent.com/ateeducacion/OmekaS-LearningObject/refs/heads/main/.github/assets/playground-preview-button.svg" alt="Try Learning Object in your browser" width="224">
 </a><br>
@@ -25,3 +28,7 @@ This Omeka S module is designed to facilitate the upload and management of learn
     *   Navigate to "Modules" in the left sidebar.
     *   Locate "Learning Objects Adapter" in the list of available modules and click the "Install" button.
 4.  **Configure the Module**: After installation, you may need to configure the module settings under "Modules" -> "Learning Objects Adapter" -> "Configure" to activate the module.
+
+## Coverage
+
+Run `make test-coverage` with PCOV or Xdebug enabled. CI measures `Module.php` and all PHP files in `src/`, requires at least 90% line coverage, and uploads the Clover report to Codecov using GitHub OIDC. Codecov requires 90% for both project and patch coverage.
