@@ -62,4 +62,6 @@ jobs:
           use_oidc: true
           files: coverage.xml
           disable_search: true
+          # Tracked legacy vendor files can disappear during composer install.
+          disable_file_fixes: true
           fail_ci_if_error: true
